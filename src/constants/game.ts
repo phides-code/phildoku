@@ -18,3 +18,7 @@ export function isPenId(value: string): value is PenId {
 }
 
 export const GAME_SESSION_STORAGE_KEY = 'phildoku.session';
+
+export const RESET_CONFIRM_MESSAGE = 'Clear your entries?';
+export const NEW_GAME_CONFIRM_MESSAGE =
+    'Start a new game? Your progress will be lost.';

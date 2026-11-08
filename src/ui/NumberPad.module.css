@@ -1,0 +1,46 @@
+.pad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    width: 100%;
+    max-width: min(100%, 28rem);
+    margin-inline: auto;
+    touch-action: manipulation;
+}
+
+.key,
+.clear {
+    margin: 0;
+    min-height: 2.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.25rem;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font: inherit;
+    font-size: 1.125rem;
+    font-weight: 600;
+    cursor: pointer;
+    touch-action: manipulation;
+}
+
+.key:hover,
+.clear:hover {
+    border-color: var(--color-ink);
+}
+
+.key:focus-visible,
+.clear:focus-visible {
+    outline: 2px solid var(--pen-blue);
+    outline-offset: 2px;
+}
+
+.key:active,
+.clear:active {
+    background: var(--color-border);
+}
+
+.clear {
+    grid-column: 1 / -1;
+    font-weight: 500;
+    color: var(--color-muted);
+}

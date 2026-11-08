@@ -1,0 +1,68 @@
+.board {
+  display: grid;
+  width: 100%;
+  max-width: min(100%, 28rem);
+  margin-inline: auto;
+  aspect-ratio: 1;
+  border: 2px solid var(--color-ink);
+  background: var(--color-paper);
+  touch-action: manipulation;
+}
+
+.cell {
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-right: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-ink);
+  font: inherit;
+  font-size: clamp(1rem, 3.5vw, 1.35rem);
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+  min-width: 0;
+  min-height: 0;
+}
+
+.cell:nth-child(9n) {
+  border-right: none;
+}
+
+.cell:nth-child(n + 73) {
+  border-bottom: none;
+}
+
+/* Thick lines at 3×3 box edges (columns 3 & 6, rows 3 & 6) */
+.cell:nth-child(3n):not(:nth-child(9n)) {
+  border-right: 2px solid var(--color-ink);
+}
+
+.cell:nth-child(n + 19):nth-child(-n + 27),
+.cell:nth-child(n + 46):nth-child(-n + 54) {
+  border-bottom: 2px solid var(--color-ink);
+}
+
+.cell:focus-visible {
+  outline: 2px solid var(--pen-blue);
+  outline-offset: -2px;
+  z-index: 1;
+}
+
+.cell[data-given='true'] {
+  color: var(--color-muted);
+  font-weight: 700;
+}
+
+.cell[data-selected='true'] {
+  outline: 2px solid var(--color-ink);
+  outline-offset: -2px;
+  z-index: 1;
+}
+
+.cell[data-conflict='true'] {
+  background: var(--color-conflict);
+}
