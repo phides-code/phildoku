@@ -13,6 +13,7 @@ type Options = {
     onSelectCell: (index: number) => void;
     onDigit: (digit: number) => void;
     onClear: () => void;
+    boardLocked?: boolean;
 };
 
 export function useBoardKeyboard({
@@ -21,6 +22,7 @@ export function useBoardKeyboard({
     onSelectCell,
     onDigit,
     onClear,
+    boardLocked = false,
 }: Options): void {
     useEffect(() => {
         const onKeyDown = (event: KeyboardEvent) => {
@@ -39,6 +41,10 @@ export function useBoardKeyboard({
                 return;
             }
 
+            if (boardLocked) {
+                return;
+            }
+
             const digit = digitFromKey(event.key);
             if (digit !== null) {
                 event.preventDefault();
@@ -54,5 +60,5 @@ export function useBoardKeyboard({
 
         window.addEventListener('keydown', onKeyDown);
         return () => window.removeEventListener('keydown', onKeyDown);
-    }, [boardRef, selectedIndex, onSelectCell, onDigit, onClear]);
+    }, [boardRef, selectedIndex, onSelectCell, onDigit, onClear, boardLocked]);
 }

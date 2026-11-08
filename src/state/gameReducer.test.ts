@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { createGivenCell, createUserCell } from '../domain/cell';
 import { createGameFromPuzzle } from '../domain/game';
 import { GRID_SIZE } from '../domain/geometry';
 import { createSession, gameReducer } from './gameReducer';
@@ -17,6 +18,23 @@ function fixtureGame(difficulty: 'easy' | 'medium' | 'hard' = 'easy') {
         gridWithGivenAtOrigin(5, 1),
         difficulty,
     );
+}
+
+function wonSession() {
+    const game = fixtureGame();
+    const completed = {
+        ...game,
+        board: game.solution.map((value, index) =>
+            index === 0
+                ? createGivenCell(value)
+                : createUserCell(value, 'black'),
+        ),
+    };
+
+    return {
+        ...createSession(completed),
+        selectedIndex: 1,
+    };
 }
 
 describe('createSession', () => {
@@ -152,5 +170,17 @@ describe('gameReducer', () => {
         });
         expect(session.selectedIndex).toBe(1);
         expect(session.pen).toBe('blue');
+    });
+
+    it('locks input, clear, and reset after the puzzle is won', () => {
+        const session = wonSession();
+        const before = session.game.board[1];
+
+        expect(gameReducer(session, { type: 'INPUT_DIGIT', digit: 9 })).toBe(
+            session,
+        );
+        expect(gameReducer(session, { type: 'CLEAR_CELL' })).toBe(session);
+        expect(gameReducer(session, { type: 'RESET_USER' })).toBe(session);
+        expect(session.game.board[1]).toEqual(before);
     });
 });

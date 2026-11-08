@@ -44,3 +44,14 @@
     font-weight: 500;
     color: var(--color-muted);
 }
+
+.key:disabled,
+.clear:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+}
+
+.key:disabled:hover,
+.clear:disabled:hover {
+    border-color: var(--color-border);
+}

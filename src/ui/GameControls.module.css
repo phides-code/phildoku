@@ -2,14 +2,24 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+    align-items: stretch;
     width: 100%;
     max-width: min(100%, 28rem);
     margin-inline: auto;
     touch-action: manipulation;
 }
 
+.newGameGroup {
+    display: flex;
+    flex: 1 1 12rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: stretch;
+    min-width: 0;
+}
+
 .button {
-    flex: 1 1 8rem;
+    flex: 1 1 6rem;
     margin: 0;
     min-height: 2.75rem;
     border: 1px solid var(--color-border);
@@ -23,15 +33,57 @@
     touch-action: manipulation;
 }
 
-.button:hover {
+.newGameGroup .button {
+    flex: 1 1 7rem;
+}
+
+.difficulty {
+    display: flex;
+    flex: 1 1 7rem;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.15rem;
+    min-width: 0;
+    color: var(--color-muted);
+    font-size: 0.75rem;
+}
+
+.difficultyLabel {
+    padding-inline: 0.15rem;
+}
+
+.difficulty select {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0 0.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.25rem;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font: inherit;
+    font-size: 1rem;
+}
+
+.button:hover,
+.difficulty select:hover {
     border-color: var(--color-ink);
 }
 
-.button:focus-visible {
+.button:focus-visible,
+.difficulty select:focus-visible {
     outline: 2px solid var(--pen-blue);
     outline-offset: 2px;
 }
 
 .button:active {
     background: var(--color-border);
+}
+
+.button:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+}
+
+.button:disabled:hover {
+    border-color: var(--color-border);
 }

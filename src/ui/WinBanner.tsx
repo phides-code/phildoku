@@ -2,10 +2,9 @@ import styles from './WinBanner.module.css';
 
 type WinBannerProps = {
     won: boolean;
-    onNewGame: () => void;
 };
 
-export function WinBanner({ won, onNewGame }: WinBannerProps) {
+export function WinBanner({ won }: WinBannerProps) {
     if (!won) {
         return null;
     }
@@ -17,9 +16,6 @@ export function WinBanner({ won, onNewGame }: WinBannerProps) {
             aria-label='Puzzle complete'
         >
             <p className={styles.message}>You solved it.</p>
-            <button type='button' className={styles.button} onClick={onNewGame}>
-                New Game
-            </button>
         </div>
     );
 }

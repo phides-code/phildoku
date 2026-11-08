@@ -1,5 +1,6 @@
 import { useEffect, useReducer, useRef, useState } from 'react';
-import { DIFFICULTIES, type Difficulty } from './constants/game';
+import styles from './App.module.css';
+import { type Difficulty } from './constants/game';
 import { isWon } from './domain/boardOps';
 import { startNewGame } from './puzzle/startNewGame';
 import type { PuzzleGenerator } from './puzzle/types';
@@ -11,7 +12,6 @@ import { NumberPad } from './ui/NumberPad';
 import { PenPicker } from './ui/PenPicker';
 import { useBoardKeyboard } from './ui/useBoardKeyboard';
 import { WinBanner } from './ui/WinBanner';
-import styles from './App.module.css';
 
 type AppProps = {
     generate?: PuzzleGenerator;
@@ -52,38 +52,34 @@ export default function App({
         });
     };
 
+    const won = isWon(session.game.board, session.game.solution);
+
     useBoardKeyboard({
         boardRef,
         selectedIndex: session.selectedIndex,
         onSelectCell: (index) => dispatch({ type: 'SELECT_CELL', index }),
         onDigit: (digit) => dispatch({ type: 'INPUT_DIGIT', digit }),
         onClear: () => dispatch({ type: 'CLEAR_CELL' }),
+        boardLocked: won,
     });
-
-    const won = isWon(session.game.board, session.game.solution);
 
     return (
         <div className={styles.app}>
             <header className={styles.header}>
                 <h1>PhilDoku</h1>
-                <label className={styles.difficulty}>
-                    Difficulty
-                    <select
-                        value={difficulty}
-                        onChange={(event) =>
-                            setDifficulty(event.target.value as Difficulty)
-                        }
-                    >
-                        {DIFFICULTIES.map((level) => (
-                            <option key={level} value={level}>
-                                {level}
-                            </option>
-                        ))}
-                    </select>
-                </label>
             </header>
 
-            <WinBanner won={won} onNewGame={beginNewGame} />
+            <GameControls
+                board={session.game.board}
+                difficulty={difficulty}
+                onDifficultyChange={setDifficulty}
+                confirmFn={confirmFn}
+                boardLocked={won}
+                onReset={() => dispatch({ type: 'RESET_USER' })}
+                onNewGame={beginNewGame}
+            />
+
+            <WinBanner won={won} />
 
             <Board
                 ref={boardRef}
@@ -97,18 +93,12 @@ export default function App({
             <NumberPad
                 onDigit={(digit) => dispatch({ type: 'INPUT_DIGIT', digit })}
                 onClear={() => dispatch({ type: 'CLEAR_CELL' })}
+                disabled={won}
             />
 
             <PenPicker
                 selectedPen={session.pen}
                 onSelectPen={(pen) => dispatch({ type: 'SET_PEN', pen })}
-            />
-
-            <GameControls
-                board={session.game.board}
-                confirmFn={confirmFn}
-                onReset={() => dispatch({ type: 'RESET_USER' })}
-                onNewGame={beginNewGame}
             />
         </div>
     );

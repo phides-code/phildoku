@@ -36,4 +36,20 @@ describe('NumberPad', () => {
         await user.click(screen.getByRole('button', { name: /clear/i }));
         expect(onClear).toHaveBeenCalledOnce();
     });
+
+    it('ignores presses when disabled', async () => {
+        const user = userEvent.setup();
+        const onDigit = vi.fn();
+        const onClear = vi.fn();
+
+        render(
+            <NumberPad onDigit={onDigit} onClear={onClear} disabled={true} />,
+        );
+
+        await user.click(screen.getByRole('button', { name: '7' }));
+        await user.click(screen.getByRole('button', { name: /clear/i }));
+
+        expect(onDigit).not.toHaveBeenCalled();
+        expect(onClear).not.toHaveBeenCalled();
+    });
 });

@@ -1,4 +1,9 @@
-import { applyDigit, clearCell, clearUserEntries } from '../domain/boardOps';
+import {
+    applyDigit,
+    clearCell,
+    clearUserEntries,
+    isWon,
+} from '../domain/boardOps';
 import type { Game } from '../domain/game';
 import type { GameAction, GameSession } from './gameState';
 
@@ -8,6 +13,10 @@ export function createSession(game: Game): GameSession {
         selectedIndex: null,
         pen: 'black',
     };
+}
+
+function isBoardLocked(session: GameSession): boolean {
+    return isWon(session.game.board, session.game.solution);
 }
 
 export function gameReducer(
@@ -28,7 +37,9 @@ export function gameReducer(
         case 'SET_PEN':
             return { ...session, pen: action.pen };
         case 'INPUT_DIGIT': {
-            if (session.selectedIndex === null) return session;
+            if (session.selectedIndex === null || isBoardLocked(session)) {
+                return session;
+            }
             return {
                 ...session,
                 game: {
@@ -43,7 +54,9 @@ export function gameReducer(
             };
         }
         case 'CLEAR_CELL': {
-            if (session.selectedIndex === null) return session;
+            if (session.selectedIndex === null || isBoardLocked(session)) {
+                return session;
+            }
             return {
                 ...session,
                 game: {
@@ -53,6 +66,9 @@ export function gameReducer(
             };
         }
         case 'RESET_USER':
+            if (isBoardLocked(session)) {
+                return session;
+            }
             return {
                 ...session,
                 game: {

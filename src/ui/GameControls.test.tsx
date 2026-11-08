@@ -9,6 +9,11 @@ import { applyDigit } from '../domain/boardOps';
 import { createEmptyBoard } from '../domain/cell';
 import { GameControls } from './GameControls';
 
+const defaultDifficultyProps = {
+    difficulty: 'easy' as const,
+    onDifficultyChange: () => {},
+};
+
 describe('GameControls', () => {
     it('resets without confirming when the board is clean', async () => {
         const user = userEvent.setup();
@@ -17,6 +22,7 @@ describe('GameControls', () => {
 
         render(
             <GameControls
+                {...defaultDifficultyProps}
                 board={createEmptyBoard()}
                 onReset={onReset}
                 onNewGame={() => {}}
@@ -38,6 +44,7 @@ describe('GameControls', () => {
 
         render(
             <GameControls
+                {...defaultDifficultyProps}
                 board={board}
                 onReset={onReset}
                 onNewGame={() => {}}
@@ -59,6 +66,7 @@ describe('GameControls', () => {
 
         render(
             <GameControls
+                {...defaultDifficultyProps}
                 board={board}
                 onReset={onReset}
                 onNewGame={() => {}}
@@ -79,6 +87,7 @@ describe('GameControls', () => {
 
         render(
             <GameControls
+                {...defaultDifficultyProps}
                 board={createEmptyBoard()}
                 onReset={() => {}}
                 onNewGame={onNewGame}
@@ -100,6 +109,7 @@ describe('GameControls', () => {
 
         render(
             <GameControls
+                {...defaultDifficultyProps}
                 board={board}
                 onReset={() => {}}
                 onNewGame={onNewGame}
@@ -111,5 +121,47 @@ describe('GameControls', () => {
 
         expect(confirmFn).toHaveBeenCalledWith(NEW_GAME_CONFIRM_MESSAGE);
         expect(onNewGame).not.toHaveBeenCalled();
+    });
+
+    it('reports difficulty changes', async () => {
+        const user = userEvent.setup();
+        const onDifficultyChange = vi.fn();
+
+        render(
+            <GameControls
+                board={createEmptyBoard()}
+                difficulty='easy'
+                onDifficultyChange={onDifficultyChange}
+                onReset={() => {}}
+                onNewGame={() => {}}
+            />,
+        );
+
+        await user.selectOptions(
+            screen.getByRole('combobox', { name: /difficulty/i }),
+            'hard',
+        );
+
+        expect(onDifficultyChange).toHaveBeenCalledWith('hard');
+    });
+
+    it('disables reset when the board is locked', async () => {
+        const user = userEvent.setup();
+        const onReset = vi.fn();
+
+        render(
+            <GameControls
+                {...defaultDifficultyProps}
+                board={createEmptyBoard()}
+                onReset={onReset}
+                onNewGame={() => {}}
+                boardLocked={true}
+            />,
+        );
+
+        const reset = screen.getByRole('button', { name: /reset/i });
+        expect(reset).toBeDisabled();
+        await user.click(reset);
+        expect(onReset).not.toHaveBeenCalled();
     });
 });
