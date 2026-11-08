@@ -50,14 +50,20 @@ function isGameSession(value: unknown): value is GameSession {
 
 function isGame(value: unknown): value is Game {
     if (!isRecord(value)) return false;
-    if (typeof value.difficulty !== 'string' || !isDifficulty(value.difficulty)) {
+    if (
+        typeof value.difficulty !== 'string' ||
+        !isDifficulty(value.difficulty)
+    ) {
         return false;
     }
     if (!Array.isArray(value.board) || value.board.length !== BOARD_SIZE) {
         return false;
     }
     if (!value.board.every(isCell)) return false;
-    if (!Array.isArray(value.solution) || value.solution.length !== BOARD_SIZE) {
+    if (
+        !Array.isArray(value.solution) ||
+        value.solution.length !== BOARD_SIZE
+    ) {
         return false;
     }
     if (!value.solution.every(isSolutionDigit)) return false;

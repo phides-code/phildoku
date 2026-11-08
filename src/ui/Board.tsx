@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, useEffect, useRef, type Ref } from 'react';
 import { PENS } from '../constants/game';
 import type { Board as BoardModel } from '../domain/cell';
 import { findSoftConflicts } from '../domain/conflicts';
@@ -11,15 +11,40 @@ type BoardProps = {
     onSelectCell: (index: number) => void;
 };
 
+function assignRef<T>(ref: Ref<T> | undefined, value: T | null) {
+    if (typeof ref === 'function') {
+        ref(value);
+    } else if (ref) {
+        ref.current = value;
+    }
+}
+
 export const Board = forwardRef<HTMLDivElement, BoardProps>(function Board(
     { board, selectedIndex, onSelectCell },
     ref,
 ) {
+    const boardRef = useRef<HTMLDivElement | null>(null);
     const conflicts = findSoftConflicts(board);
+
+    useEffect(() => {
+        if (selectedIndex === null) {
+            return;
+        }
+
+        const cell = boardRef.current?.querySelector<HTMLButtonElement>(
+            `[data-cell-index="${selectedIndex}"]`,
+        );
+        if (cell && document.activeElement !== cell) {
+            cell.focus({ preventScroll: true });
+        }
+    }, [selectedIndex]);
 
     return (
         <div
-            ref={ref}
+            ref={(node) => {
+                boardRef.current = node;
+                assignRef(ref, node);
+            }}
             className={styles.board}
             role='grid'
             aria-label='Sudoku board'
@@ -33,6 +58,9 @@ export const Board = forwardRef<HTMLDivElement, BoardProps>(function Board(
                     cell.value === 0
                         ? position
                         : `${position}, ${cell.value}${cell.given ? ', given' : ''}`;
+                const isSelected = selectedIndex === index;
+                const isTabStop =
+                    isSelected || (selectedIndex === null && index === 0);
 
                 return (
                     <button
@@ -41,10 +69,10 @@ export const Board = forwardRef<HTMLDivElement, BoardProps>(function Board(
                         role='gridcell'
                         className={styles.cell}
                         aria-label={label}
+                        tabIndex={isTabStop ? 0 : -1}
+                        data-cell-index={index}
                         data-given={cell.given ? 'true' : undefined}
-                        data-selected={
-                            selectedIndex === index ? 'true' : undefined
-                        }
+                        data-selected={isSelected ? 'true' : undefined}
                         data-conflict={
                             conflicts.has(index) ? 'true' : undefined
                         }

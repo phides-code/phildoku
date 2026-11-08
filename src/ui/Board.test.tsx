@@ -82,6 +82,38 @@ describe('Board', () => {
         expect(onSelectCell).toHaveBeenCalledWith(2);
     });
 
+    it('keeps DOM focus on the selected cell when selection changes', () => {
+        const { rerender } = render(
+            <Board
+                board={boardWithGiven()}
+                selectedIndex={1}
+                onSelectCell={() => {}}
+            />,
+        );
+
+        expect(document.activeElement).toBe(
+            screen.getByRole('gridcell', { name: 'Row 1 column 2' }),
+        );
+
+        rerender(
+            <Board
+                board={boardWithGiven()}
+                selectedIndex={2}
+                onSelectCell={() => {}}
+            />,
+        );
+
+        expect(document.activeElement).toBe(
+            screen.getByRole('gridcell', { name: 'Row 1 column 3' }),
+        );
+        expect(
+            screen.getByRole('gridcell', { name: 'Row 1 column 2' }),
+        ).not.toHaveAttribute('data-selected');
+        expect(
+            screen.getByRole('gridcell', { name: 'Row 1 column 3' }),
+        ).toHaveAttribute('data-selected', 'true');
+    });
+
     it('applies pen ink style for user digits', () => {
         const board = applyDigit(createEmptyBoard(), 3, 7, 'red');
 
