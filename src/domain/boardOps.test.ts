@@ -38,11 +38,11 @@ describe('applyDigit', () => {
 
 describe('clearCell', () => {
     it('clears value and ink on a user cell', () => {
-        const board = applyDigit(createEmptyBoard(), 3, 6, 'green');
+        const board = applyDigit(createEmptyBoard(), 3, 6, 'purple');
         const next = clearCell(board, 3);
 
         expect(next[3]).toEqual({ value: 0, given: false, ink: null });
-        expect(board[3]).toEqual({ value: 6, given: false, ink: 'green' });
+        expect(board[3]).toEqual({ value: 6, given: false, ink: 'purple' });
     });
 
     it('leaves a given cell unchanged', () => {

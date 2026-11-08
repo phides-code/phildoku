@@ -13,14 +13,45 @@ export function serializeSession(session: GameSession): string {
     return JSON.stringify(session);
 }
 
+const LEGACY_FOURTH_PENS = new Set(['green', 'orange']);
+
 export function parseSession(raw: string): GameSession | null {
     try {
         const data: unknown = JSON.parse(raw);
-        if (!isGameSession(data)) return null;
-        return data;
+        const migrated = migrateLegacyPens(data);
+        if (!isGameSession(migrated)) return null;
+        return migrated;
     } catch {
         return null;
     }
+}
+
+function migrateLegacyPens(value: unknown): unknown {
+    if (!isRecord(value)) return value;
+
+    const pen =
+        typeof value.pen === 'string' && LEGACY_FOURTH_PENS.has(value.pen)
+            ? 'purple'
+            : value.pen;
+
+    const game = isRecord(value.game)
+        ? {
+              ...value.game,
+              board: Array.isArray(value.game.board)
+                  ? value.game.board.map(migrateLegacyCellInk)
+                  : value.game.board,
+          }
+        : value.game;
+
+    return { ...value, pen, game };
+}
+
+function migrateLegacyCellInk(cell: unknown): unknown {
+    if (!isRecord(cell)) return cell;
+    if (typeof cell.ink !== 'string' || !LEGACY_FOURTH_PENS.has(cell.ink)) {
+        return cell;
+    }
+    return { ...cell, ink: 'purple' };
 }
 
 export function saveSession(

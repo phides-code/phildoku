@@ -91,9 +91,9 @@ describe('gameReducer', () => {
 
     it('SET_PEN changes only the pen', () => {
         const initial = createSession(fixtureGame());
-        const session = gameReducer(initial, { type: 'SET_PEN', pen: 'green' });
+        const session = gameReducer(initial, { type: 'SET_PEN', pen: 'purple' });
 
-        expect(session.pen).toBe('green');
+        expect(session.pen).toBe('purple');
         expect(session.game).toBe(initial.game);
         expect(session.selectedIndex).toBeNull();
     });

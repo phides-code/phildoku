@@ -63,6 +63,31 @@ describe('serializeSession / parseSession', () => {
         expect(parseSession(JSON.stringify({ foo: 1 }))).toBeNull();
         expect(parseSession(JSON.stringify(null))).toBeNull();
     });
+
+    it('migrates legacy green and orange pens to purple', () => {
+        const base = createSession(fixtureGame());
+        const raw = JSON.stringify({
+            ...base,
+            pen: 'green',
+            game: {
+                ...base.game,
+                board: base.game.board.map((cell, index) =>
+                    index === 1
+                        ? { value: 4, given: false, ink: 'orange' }
+                        : cell,
+                ),
+            },
+        });
+
+        const parsed = parseSession(raw);
+
+        expect(parsed?.pen).toBe('purple');
+        expect(parsed?.game.board[1]).toEqual({
+            value: 4,
+            given: false,
+            ink: 'purple',
+        });
+    });
 });
 
 describe('saveSession / loadSession', () => {

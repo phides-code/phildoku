@@ -5,7 +5,7 @@ export const PENS = {
     black: 'var(--pen-black)',
     red: 'var(--pen-red)',
     blue: 'var(--pen-blue)',
-    green: 'var(--pen-green)',
+    purple: 'var(--pen-purple)',
 } as const;
 export type PenId = keyof typeof PENS;
 

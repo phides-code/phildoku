@@ -9,14 +9,14 @@ describe('DIFFICULTIES', () => {
 
 describe('PENS', () => {
     it('lists the four pen ids', () => {
-        expect(Object.keys(PENS)).toEqual(['black', 'red', 'blue', 'green']);
+        expect(Object.keys(PENS)).toEqual(['black', 'red', 'blue', 'purple']);
     });
 
     it('maps each pen to its css variable token', () => {
         expect(PENS.black).toBe('var(--pen-black)');
         expect(PENS.red).toBe('var(--pen-red)');
         expect(PENS.blue).toBe('var(--pen-blue)');
-        expect(PENS.green).toBe('var(--pen-green)');
+        expect(PENS.purple).toBe('var(--pen-purple)');
     });
 });
 
@@ -30,6 +30,6 @@ describe('isDifficulty', () => {
 describe('isPenId', () => {
     it('accepts only known pen ids', () => {
         expect(isPenId('red')).toBe(true);
-        expect(isPenId('purple')).toBe(false);
+        expect(isPenId('green')).toBe(false);
     });
 });

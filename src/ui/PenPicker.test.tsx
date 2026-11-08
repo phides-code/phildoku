@@ -17,7 +17,7 @@ describe('PenPicker', () => {
             screen.getByRole('button', { name: /blue/i }),
         ).toBeInTheDocument();
         expect(
-            screen.getByRole('button', { name: /green/i }),
+            screen.getByRole('button', { name: /purple/i }),
         ).toBeInTheDocument();
     });
 
