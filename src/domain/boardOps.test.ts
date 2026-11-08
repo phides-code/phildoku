@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { applyDigit, clearCell, clearUserEntries, isWon } from './boardOps';
+import { applyDigit, clearUserEntries, isDirty, isWon } from './boardOps';
 import { createEmptyBoard, createGivenCell, createUserCell } from './cell';
 import { BOARD_SIZE } from './geometry';
 
@@ -110,5 +110,31 @@ describe('clearUserEntries', () => {
                 (cell) => cell.value === 0 && !cell.given && cell.ink === null,
             ),
         ).toBe(true);
+    });
+});
+
+describe('isDirty', () => {
+    it('is false for a fresh puzzle with only givens', () => {
+        const board = createEmptyBoard();
+        board[0] = createGivenCell(5);
+
+        expect(isDirty(board)).toBe(false);
+    });
+
+    it('is true when any user cell has a value', () => {
+        let board = createEmptyBoard();
+        board[0] = createGivenCell(5);
+        board = applyDigit(board, 1, 3, 'red');
+
+        expect(isDirty(board)).toBe(true);
+    });
+
+    it('is false again after clearUserEntries', () => {
+        let board = createEmptyBoard();
+        board[0] = createGivenCell(5);
+        board = applyDigit(board, 1, 3, 'black');
+        board = clearUserEntries(board);
+
+        expect(isDirty(board)).toBe(false);
     });
 });

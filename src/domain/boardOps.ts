@@ -35,3 +35,7 @@ export function isWon(board: Board, solution: number[]): boolean {
 export function clearUserEntries(board: Board): Board {
     return board.map((cell) => (cell.given ? cell : createEmptyCell()));
 }
+
+export function isDirty(board: Board): boolean {
+    return board.some((cell) => !cell.given && cell.value !== 0);
+}

@@ -16,3 +16,5 @@ export function isDifficulty(value: string): value is Difficulty {
 export function isPenId(value: string): value is PenId {
     return value in PENS;
 }
+
+export const GAME_SESSION_STORAGE_KEY = 'phildoku.session';
