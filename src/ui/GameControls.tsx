@@ -35,7 +35,7 @@ export function GameControls({
         >
             <button
                 type='button'
-                className={styles.button}
+                className={styles.control}
                 disabled={boardLocked}
                 onClick={() => {
                     if (
@@ -48,41 +48,38 @@ export function GameControls({
                 Reset
             </button>
 
-            <div className={styles.newGameGroup}>
-                <button
-                    type='button'
-                    className={styles.button}
-                    onClick={() => {
-                        if (
-                            confirmIfDirty(
-                                board,
-                                NEW_GAME_CONFIRM_MESSAGE,
-                                confirmFn,
-                            )
-                        ) {
-                            onNewGame();
-                        }
-                    }}
-                >
-                    New Game
-                </button>
-                <label className={styles.difficulty}>
-                    <span className={styles.difficultyLabel}>Difficulty</span>
-                    <select
-                        value={difficulty}
-                        aria-label='Difficulty'
-                        onChange={(event) =>
-                            onDifficultyChange(event.target.value as Difficulty)
-                        }
-                    >
-                        {DIFFICULTIES.map((level) => (
-                            <option key={level} value={level}>
-                                {level}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-            </div>
+            <button
+                type='button'
+                className={styles.control}
+                onClick={() => {
+                    if (
+                        confirmIfDirty(
+                            board,
+                            NEW_GAME_CONFIRM_MESSAGE,
+                            confirmFn,
+                        )
+                    ) {
+                        onNewGame();
+                    }
+                }}
+            >
+                New Game
+            </button>
+
+            <select
+                className={styles.control}
+                value={difficulty}
+                aria-label='Difficulty'
+                onChange={(event) =>
+                    onDifficultyChange(event.target.value as Difficulty)
+                }
+            >
+                {DIFFICULTIES.map((level) => (
+                    <option key={level} value={level}>
+                        {level}
+                    </option>
+                ))}
+            </select>
         </div>
     );
 }

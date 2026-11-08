@@ -32,7 +32,7 @@ export function NumberPad({
                 disabled={disabled}
                 onClick={onClear}
             >
-                Clear
+                Clear cell
             </button>
         </div>
     );
