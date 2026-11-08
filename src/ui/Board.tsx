@@ -48,7 +48,10 @@ export const Board = forwardRef<HTMLDivElement, BoardProps>(function Board(
             className={styles.board}
             role='grid'
             aria-label='Sudoku board'
-            style={{ gridTemplateColumns: `repeat(${GRID_SIZE}, 1fr)` }}
+            style={{
+                gridTemplateColumns: `repeat(${GRID_SIZE}, 1fr)`,
+                gridTemplateRows: `repeat(${GRID_SIZE}, 1fr)`,
+            }}
         >
             {board.map((cell, index) => {
                 const row = Math.floor(index / GRID_SIZE) + 1;

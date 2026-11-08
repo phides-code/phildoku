@@ -23,14 +23,14 @@
 }
 
 :root[data-theme='dark'] {
-    --color-ink: #ffffff;
-    --color-paper: #000000;
-    --color-given: #ffffff;
-    --color-muted: #c8c8c8;
-    --color-border: #ffffff;
+    --color-ink: #c8c8c8;
+    --color-paper: #1a1a1a;
+    --color-given: #c8c8c8;
+    --color-muted: #a3a3a3;
+    --color-border: #c8c8c8;
     --color-conflict: #5c1f1f;
 
-    --pen-black: #ffffff;
+    --pen-black: #c8c8c8;
     --pen-red: #f97066;
     --pen-blue: #84caff;
     --pen-purple: #d8b4fe;

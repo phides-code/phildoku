@@ -12,6 +12,9 @@
 .cell {
     display: grid;
     place-items: center;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
     margin: 0;
     padding: 0;
     border: none;
@@ -26,6 +29,7 @@
     touch-action: manipulation;
     min-width: 0;
     min-height: 0;
+    overflow: hidden;
 }
 
 .cell:nth-child(9n) {
