@@ -4,7 +4,7 @@ import { GRID_SIZE } from '../domain/geometry';
 import { generateLuckyFoxPuzzle } from './luckyFoxGenerator';
 
 vi.mock('@luckyfoxdesign/sudoku-generator', () => ({
-  generateSudoku: vi.fn(),
+    generateSudoku: vi.fn(),
 }));
 
 import { generateSudoku } from '@luckyfoxdesign/sudoku-generator';
@@ -12,46 +12,46 @@ import { generateSudoku } from '@luckyfoxdesign/sudoku-generator';
 const generateSudokuMock = vi.mocked(generateSudoku);
 
 function emptyGrid(fill = 0): number[][] {
-  return Array.from({ length: GRID_SIZE }, () =>
-    Array.from({ length: GRID_SIZE }, () => fill),
-  );
+    return Array.from({ length: GRID_SIZE }, () =>
+        Array.from({ length: GRID_SIZE }, () => fill),
+    );
 }
 
 describe('generateLuckyFoxPuzzle (mocked)', () => {
-  beforeEach(() => {
-    generateSudokuMock.mockReset();
-  });
-
-  it('forwards difficulty and returns puzzle + solution only', () => {
-    const puzzle = emptyGrid(0);
-    puzzle[0][0] = 5;
-    const solution = emptyGrid(1);
-    solution[0][0] = 5;
-
-    generateSudokuMock.mockReturnValue({
-      puzzle,
-      solution,
-      difficulty: 'easy',
-      score: 3,
+    beforeEach(() => {
+        generateSudokuMock.mockReset();
     });
 
-    const result = generateLuckyFoxPuzzle('easy');
+    it('forwards difficulty and returns puzzle + solution only', () => {
+        const puzzle = emptyGrid(0);
+        puzzle[0][0] = 5;
+        const solution = emptyGrid(1);
+        solution[0][0] = 5;
 
-    expect(generateSudokuMock).toHaveBeenCalledWith('easy');
-    expect(result).toEqual({ puzzle, solution });
-    expect(result).not.toHaveProperty('score');
-  });
+        generateSudokuMock.mockReturnValue({
+            puzzle,
+            solution,
+            difficulty: 'easy',
+            score: 3,
+        });
 
-  it.each(DIFFICULTIES)('accepts difficulty %s', (difficulty) => {
-    generateSudokuMock.mockReturnValue({
-      puzzle: emptyGrid(0),
-      solution: emptyGrid(1),
-      difficulty,
-      score: 0,
+        const result = generateLuckyFoxPuzzle('easy');
+
+        expect(generateSudokuMock).toHaveBeenCalledWith('easy');
+        expect(result).toEqual({ puzzle, solution });
+        expect(result).not.toHaveProperty('score');
     });
 
-    generateLuckyFoxPuzzle(difficulty);
+    it.each(DIFFICULTIES)('accepts difficulty %s', (difficulty) => {
+        generateSudokuMock.mockReturnValue({
+            puzzle: emptyGrid(0),
+            solution: emptyGrid(1),
+            difficulty,
+            score: 0,
+        });
 
-    expect(generateSudokuMock).toHaveBeenCalledWith(difficulty);
-  });
+        generateLuckyFoxPuzzle(difficulty);
+
+        expect(generateSudokuMock).toHaveBeenCalledWith(difficulty);
+    });
 });

@@ -1,15 +1,17 @@
-import { useEffect, useReducer, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useReducer, useRef, useState } from 'react';
 import styles from './App.module.css';
-import { type Difficulty } from './constants/game';
+import { type Difficulty, type Theme } from './constants/game';
 import { isWon } from './domain/boardOps';
 import { startNewGame } from './puzzle/startNewGame';
 import type { PuzzleGenerator } from './puzzle/types';
 import { createSession, gameReducer } from './state/gameReducer';
 import { loadSession, saveSession } from './storage/sessionStorage';
+import { applyTheme, loadTheme, saveTheme } from './storage/themeStorage';
 import { Board } from './ui/Board';
 import { GameControls } from './ui/GameControls';
 import { NumberPad } from './ui/NumberPad';
 import { PenPicker } from './ui/PenPicker';
+import { ThemeToggle } from './ui/ThemeToggle';
 import { useBoardKeyboard } from './ui/useBoardKeyboard';
 import { WinBanner } from './ui/WinBanner';
 
@@ -39,11 +41,17 @@ export default function App({
     const [difficulty, setDifficulty] = useState<Difficulty>(
         session.game.difficulty,
     );
+    const [theme, setTheme] = useState<Theme>(() => loadTheme(storage));
     const boardRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         saveSession(session, storage);
     }, [session, storage]);
+
+    useLayoutEffect(() => {
+        applyTheme(theme);
+        saveTheme(theme, storage);
+    }, [theme, storage]);
 
     const beginNewGame = () => {
         dispatch({
@@ -67,6 +75,12 @@ export default function App({
         <div className={styles.app}>
             <header className={styles.header}>
                 <h1>PhilDoku</h1>
+                <ThemeToggle
+                    theme={theme}
+                    onToggle={() =>
+                        setTheme((current) => (current === 'dark' ? 'light' : 'dark'))
+                    }
+                />
             </header>
 
             <GameControls
@@ -85,9 +99,7 @@ export default function App({
                 ref={boardRef}
                 board={session.game.board}
                 selectedIndex={session.selectedIndex}
-                onSelectCell={(index) =>
-                    dispatch({ type: 'SELECT_CELL', index })
-                }
+                onSelectCell={(index) => dispatch({ type: 'SELECT_CELL', index })}
             />
 
             <NumberPad

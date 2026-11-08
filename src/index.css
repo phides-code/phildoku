@@ -1,47 +1,64 @@
 :root {
-  --color-ink: #1a1a1a;
-  --color-paper: #f7f4ef;
-  --color-muted: #5c5c5c;
-  --color-border: #c8c2b8;
-  --color-conflict: #f0d5d5;
+    --color-ink: #1a1a1a;
+    --color-paper: #f7f4ef;
+    --color-given: #5c5c5c;
+    --color-muted: #5c5c5c;
+    --color-border: #c8c2b8;
+    --color-conflict: #f0d5d5;
 
-  --pen-black: #1a1a1a;
-  --pen-red: #b42318;
-  --pen-blue: #175cd3;
-  --pen-green: #087443;
+    --pen-black: #1a1a1a;
+    --pen-red: #b42318;
+    --pen-blue: #175cd3;
+    --pen-green: #087443;
 
-  --font-sans: 'Segoe UI', system-ui, sans-serif;
+    --font-sans: 'Segoe UI', system-ui, sans-serif;
 
-  color: var(--color-ink);
-  background: var(--color-paper);
-  font-family: var(--font-sans);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    color: var(--color-ink);
+    background: var(--color-paper);
+    font-family: var(--font-sans);
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+:root[data-theme='dark'] {
+    --color-ink: #ffffff;
+    --color-paper: #000000;
+    --color-given: #ffffff;
+    --color-muted: #c8c8c8;
+    --color-border: #ffffff;
+    --color-conflict: #5c1f1f;
+
+    --pen-black: #ffffff;
+    --pen-red: #f97066;
+    --pen-blue: #84caff;
+    --pen-green: #6ce9a6;
 }
 
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  min-height: 100svh;
+    margin: 0;
+    min-height: 100svh;
+    color: var(--color-ink);
+    background: var(--color-paper);
 }
 
 #root {
-  min-height: 100svh;
-  max-width: 40rem;
-  margin: 0 auto;
-  padding: 1.5rem 1rem;
+    min-height: 100svh;
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
 }
 
 h1 {
-  margin: 0;
-  font-size: 1.75rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
 }

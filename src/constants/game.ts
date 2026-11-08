@@ -18,6 +18,14 @@ export function isPenId(value: string): value is PenId {
 }
 
 export const GAME_SESSION_STORAGE_KEY = 'phildoku.session';
+export const THEME_STORAGE_KEY = 'phildoku.theme';
+
+export const THEMES = ['light', 'dark'] as const;
+export type Theme = (typeof THEMES)[number];
+
+export function isTheme(value: string): value is Theme {
+    return (THEMES as readonly string[]).includes(value);
+}
 
 export const RESET_CONFIRM_MESSAGE = 'Clear your entries?';
 export const NEW_GAME_CONFIRM_MESSAGE =

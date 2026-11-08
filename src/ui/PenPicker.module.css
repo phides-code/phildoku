@@ -1,33 +1,37 @@
 .picker {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  align-items: center;
-  touch-action: manipulation;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    align-items: center;
+    width: 100%;
+    max-width: min(100%, 28rem);
+    margin-inline: auto;
+    touch-action: manipulation;
 }
 
 .swatch {
-  box-sizing: border-box;
-  width: 2.75rem;
-  height: 2.75rem;
-  margin: 0;
-  padding: 0;
-  border: 2px solid var(--color-border);
-  border-radius: 999px;
-  cursor: pointer;
-  touch-action: manipulation;
+    box-sizing: border-box;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin: 0;
+    padding: 0;
+    border: 2px solid var(--color-border);
+    border-radius: 999px;
+    cursor: pointer;
+    touch-action: manipulation;
 }
 
 .swatch:hover {
-  border-color: var(--color-ink);
+    border-color: var(--color-ink);
 }
 
 .swatch:focus-visible {
-  outline: 2px solid var(--pen-blue);
-  outline-offset: 2px;
+    outline: 2px solid var(--pen-blue);
+    outline-offset: 2px;
 }
 
 .swatch[aria-pressed='true'] {
-  border-color: var(--color-ink);
-  box-shadow: 0 0 0 2px var(--color-paper), 0 0 0 4px var(--color-ink);
+    border-color: var(--color-ink);
+    box-shadow: 0 0 0 2px var(--color-paper), 0 0 0 4px var(--color-ink);
 }
