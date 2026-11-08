@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { applyDigit, clearUserEntries, isDirty, isWon } from './boardOps';
+import {
+    applyDigit,
+    clearCell,
+    clearUserEntries,
+    isDirty,
+    isWon,
+} from './boardOps';
 import { createEmptyBoard, createGivenCell, createUserCell } from './cell';
 import { BOARD_SIZE } from './geometry';
 
