@@ -1,5 +1,6 @@
 import {
     DIFFICULTIES,
+    DIFFICULTY_LABELS,
     NEW_GAME_CONFIRM_MESSAGE,
     RESET_CONFIRM_MESSAGE,
     type Difficulty,
@@ -76,7 +77,7 @@ export function GameControls({
             >
                 {DIFFICULTIES.map((level) => (
                     <option key={level} value={level}>
-                        {level}
+                        {DIFFICULTY_LABELS[level]}
                     </option>
                 ))}
             </select>

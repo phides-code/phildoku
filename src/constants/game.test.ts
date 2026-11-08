@@ -1,9 +1,23 @@
 import { describe, expect, it } from 'vitest';
-import { DIFFICULTIES, PENS, isDifficulty, isPenId } from './game';
+import {
+    DIFFICULTIES,
+    DIFFICULTY_LABELS,
+    PENS,
+    isDifficulty,
+    isPenId,
+} from './game';
 
 describe('DIFFICULTIES', () => {
     it('lists easy, medium, and hard in that order', () => {
         expect(DIFFICULTIES).toEqual(['easy', 'medium', 'hard']);
+    });
+
+    it('exposes capitalized display labels', () => {
+        expect(DIFFICULTY_LABELS).toEqual({
+            easy: 'Easy',
+            medium: 'Medium',
+            hard: 'Hard',
+        });
     });
 });
 
