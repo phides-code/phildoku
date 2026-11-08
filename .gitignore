@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 AGENTS.md
+.cursor/
+s3-setup/
+
